@@ -9,7 +9,16 @@ var admin = express();
 var port = process.env.PORT || 8080;
 
 app.use(express.static('public'));
+// app.use(express.static('files'));
+// to use multiple static assets directories, call multiple times. Look up in order you set the static directories
 
+
+// create virtual path prefix /static
+app.use('/static', express.static('public'));
+
+// express.static fn is relative to directory where you launch node process.
+// safer to use absolute path if running express app from another directory.
+// app.use('/static', express.static(path.join(__dirname, 'public')));
 
 // ROUTES
 
@@ -39,10 +48,8 @@ router.param('name', function(req,res, next, name) {
    console.log("Validating  " + name);
    // do validation oif name here
    if (name != 'Steve') {
-      res.send("You are "+ name + " and not Steve");     
+      res.status(500).send({ error: "You are not Steve" })   
    }
-
-   
 
    //once validation is done, save the new item in the req
    req.name = name
