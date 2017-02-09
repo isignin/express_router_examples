@@ -8,6 +8,9 @@ var admin = express();
 
 var port = process.env.PORT || 8080;
 
+app.use(express.static('public'));
+
+
 // ROUTES
 
 var router = express.Router();
